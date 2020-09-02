@@ -24,7 +24,7 @@ my $config = path_check("$Bin/config.txt");
 
 # Global variable
 my ($help, $stat, $fastqc_help, $fastp_help, $backtrack_help, $mem_help, %mtdna_shell, $main_shell);
-my $project = strftime("%Y%m%d",localtime());
+my $project = strftime("%Y%m%d-%H%M%S",localtime());
 my $workDir = $ENV{'PWD'};
 my $ref = $config->{'chrM'};
 my $step = 'cfbm';
@@ -33,6 +33,7 @@ my $fastqc_arg = '';
 my $fastp_arg = "--detect_adapter_for_pe -q 15 -u 40 -n 5 -l 50 -w $thread -d 3";
 my $align_way = 'mem';
 my $align_arg = '';
+my $run = 'no'; 
 
 # Guide
 my $guide_separator = "=" x 150;
@@ -64,7 +65,8 @@ $indent --workDir <str>               Work directory, default "$workDir"
 $indent --ref <str>                   Reference genome absolute path, default "$ref"
 $indent --step <str>                  Set step for run, default "$step"
 $indent --thread <i>                  Set the number of threads for the program to run, default "$thread"
-$indent --stat                        Wether stat sample information, default not stat
+$indent --run <str>                   whether run pipeline, yes or no, default "$run"
+$indent --stat                        Whether stat sample information, default not stat
 $parameter_separator Filter $parameter_separator 
 $indent --fastqc_help                 Print fastqc help information
 $indent --fastqc_arg                  Fastqc argument setting, default "$fastqc_arg"
@@ -91,6 +93,7 @@ GetOptions(
 	"ref=s" => \$ref,
 	"step=s" => \$step,
 	"thread=i" => \$thread,
+	"run=s" => \$run,
 	"stat" => \$stat,
 	"fastqc_help" => \$fastqc_help,
 	"fastqc_arg=s" => \$fastqc_arg,
@@ -110,7 +113,7 @@ if (@ARGV == 0) {
 die $guide if (@ARGV == 0 || defined $help);
 
 # Main
-my $projectDir = "$workDir/$project";
+my $projectDir = "$workDir/.$project";
 my $sample_file = shift;
 system("mkdir -p $projectDir") == 0 || die $!;
 system("cp $sample_file $projectDir") == 0 || die $!;
@@ -201,6 +204,11 @@ if ($step =~ /c|f|b|m/) {
 	}
 }
 
+$main_shell .= "cp $projectDir/*/03.mtdna/*.xls $workDir\n";
+$main_shell .= "rm -rf $projectDir $workDir/haplogrep.log\n";
+
 write_shell($main_shell, "$projectDir/main.sh");
 
 stat_log($sample_total, $Bin) if (defined $stat);
+
+system("nohup sh $projectDir/main.sh >$projectDir/main.sh.o 2>$projectDir/main.sh.e &") == 0 || die $! if ($run =~ m/y/i);

@@ -1,11 +1,11 @@
 #File or tool path settings
 #name	path
-chrM	/data/bioit/biodata/xuxy/pipeline/mtdna/db/Homo_sapiens_assembly38.chrM.fasta
-fastqc	/data/bioit/biodata/xuxy/pipeline/wgs/soft/FastQC/fastqc
-fastp	/data/bioit/biodata/xuxy/pipeline/wgs/soft/fastp-master/fastp
-bwa	/data/bioit/biodata/xuxy/pipeline/wgs/soft/bwa-0.7.17/bwa
-samtools	/data/bioit/biodata/xuxy/pipeline/wgs/soft/samtools-1.10-install/bin/samtools
-gatk	/data/bioit/biodata/xuxy/pipeline/wgs/soft/gatk-4.1.8.0/gatk
-annot	/data/bioit/biodata/xuxy/pipeline/mtdna/db/annot	
-db	/data/bioit/biodata/xuxy/pipeline/mtdna/db
-lib	/data/bioit/biodata/xuxy/pipeline/mtdna/lib
+chrM	/home/xuxy/pipeline/mtdna/db/Homo_sapiens_assembly38.chrM.fasta
+fastqc	/home/xuxy/pipeline/mtdna/soft/FastQC/fastqc
+fastp	/home/xuxy/pipeline/mtdna/soft/bin/fastp
+bwa	/home/xuxy/pipeline/mtdna/soft/bin/bwa
+samtools	/usr/bin/samtools
+gatk	/home/xuxy/pipeline/mtdna/soft/gatk-4.1.8.0/gatk
+annot	/home/xuxy/pipeline/mtdna/db/annot	
+db	/home/xuxy/pipeline/mtdna/db
+lib	/home/xuxy/pipeline/mtdna/lib

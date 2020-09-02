@@ -1,6 +1,8 @@
 package MTdna;
 
 use File::Basename;
+use FindBin qw($Bin);
+use lib "$Bin";
 use WriteShell;
 
 # write_shell($mtdna_shell, "$outDir/$prefix.mtdna.sh");
